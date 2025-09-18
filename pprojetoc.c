@@ -1,76 +1,76 @@
-#include <stdio.h>   // Biblioteca padrão de entrada e saída (printf, scanf)
-#include <string.h>  // Biblioteca para manipulação de strings (strcmp, strncmp, strlen)
+#include <stdio.h>   
+#include <string.h>
 
 char *morse[] = {  // Array de strings representando o código Morse das letras A-Z
-    ".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", // A-J
-    "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-",   // K-T
-    "..-", "...-", ".--", "-..-", "-.--", "--.."                            // U-Z
+    ".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", 
+    "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-",  
+    "..-", "...-", ".--", "-..-", "-.--", "--.."                           
 };
 
 char Traduzir(char vet[]) {   // Função que recebe um código Morse completo e retorna a letra correspondente
-    for (int i = 0; i < 26; i++) {  // Percorre todas as letras A-Z
-        if (strcmp(vet, morse[i]) == 0) {  // Compara a string vet com morse[i]
+    for (int i = 0; i < 26; i++) { 
+        if (strcmp(vet, morse[i]) == 0) {  
             return 'A' + i;  // Retorna a letra correspondente (A=0, B=1, etc.)
         }
     }
-    return ' ';  // Se não encontrar, retorna espaço
+    return ' ';  
 }
 
 void sugestao(char vet[]) {  // Função que sugere letras possíveis quando há um '*' no código Morse
-    printf("[");  // Abre colchete para mostrar as sugestões
-    for (int i = 0; i < 26; i++) {  // Percorre todas as letras A-Z
+    printf("["); 
+    for (int i = 0; i < 26; i++) {  
         if (strncmp(vet, morse[i], strlen(vet)) == 0) { // Compara apenas o prefixo da string
-            printf("%c", 'A' + i);  // Se o prefixo bate, imprime a letra como sugestão
+            printf("%c", 'A' + i); 
         }
     }
-    printf("]");  // Fecha colchete das sugestões
+    printf("]");  
 }
 
 void SepararString(char vet[], int tam) {  // Função que lê o código Morse e traduz
-    char codigo[10];   // Array temporário para armazenar o código de uma letra
-    int cont = 0;      // Contador de posições no array codigo
-    int espacos = 0;   // Contador de espaços consecutivos
+    char codigo[10];   
+    int cont = 0;      
+    int espacos = 0;  
 
-    for (int i = 0; vet[i] != '\0'; i++) {  // Percorre toda a string de entrada
-        if (vet[i] == '.' || vet[i] == '-') {  // Se for ponto ou traço
-            codigo[cont++] = vet[i];          // Adiciona ao array codigo
-            codigo[cont] = '\0';              // Finaliza string
-            espacos = 0;                       // Reseta contador de espaços
+    for (int i = 0; vet[i] != '\0'; i++) { 
+        if (vet[i] == '.' || vet[i] == '-') {  
+            codigo[cont++] = vet[i];         
+            codigo[cont] = '\0';         
+            espacos = 0;                   
         } 
         else if (vet[i] == '*') {  // Se encontrar '*', chamar sugestão
-            codigo[cont] = '\0';   // Finaliza string temporária
-            sugestao(codigo);      // Mostra letras possíveis
-            cont = 0;              // Reseta contador
-            codigo[0] = '\0';      // Limpa array codigo
+            codigo[cont] = '\0';  
+            sugestao(codigo);      
+            cont = 0;             
+            codigo[0] = '\0';  
         }
         else if (vet[i] == ' ') {  // Se encontrar espaço
-            if (cont > 0) {         // Se tiver código acumulado
+            if (cont > 0) {         
                 printf("%c", Traduzir(codigo));  // Traduz e imprime letra
-                cont = 0;           // Reseta contador
-                codigo[0] = '\0';   // Limpa array codigo
+                cont = 0;           
+                codigo[0] = '\0';  
             }
-            espacos++;              // Conta espaço consecutivo
-            if (espacos == 2) {     // Dois espaços consecutivos = nova palavra
-                printf(" ");        // Imprime espaço entre palavras
-                espacos = 0;        // Reseta contador de espaços
+            espacos++;              
+            if (espacos == 2) {     
+                printf(" ");       
+                espacos = 0;   
             }
         }
     }
 
-    if (cont > 0) {  // Se sobrar código no final da string
-        printf("%c", Traduzir(codigo));  // Traduz e imprime última letra
+    if (cont > 0) { //Ultima traducao
+        printf("%c", Traduzir(codigo));  
     }
 }
 
 int main() {
     char codigo[200];  // Array para armazenar toda a entrada do usuário
 
-    printf("Digite o codigo Morse (1 espaco = letra, 2 espacos = palavra):\n");  // Mensagem
+    printf("Digite o codigo Morse (1 espaco = letra, 2 espacos = palavra):\n"); 
     fgets(codigo, sizeof(codigo), stdin);
     codigo[strcspn(codigo, "\n")] = '\0';
 
-    SepararString(codigo, 200);  // Chama função que processa e traduz o código Morse
+    SepararString(codigo, 200);  
 
-    printf("\n");  // Pula linha no final
-    return 0;      // Encerra o programa
+    printf("\n");  
+    return 0;    
 }
