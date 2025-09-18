@@ -1,3 +1,8 @@
+//Nomes e RA:
+//Arthur Candido Palma 10743580
+//Gabriel Pereira de Souza 10440766
+//Kauê Cordeiro Abreu 10741435
+
 #include <stdio.h>   
 #include <string.h>
 
